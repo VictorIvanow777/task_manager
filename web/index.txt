@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Добре дошли в Task Manager</h1>
+    <div id="tasks">Зареждане на задачите...</div>
+
+    <script>
+      fetch('http://localhost:3000/tasks')
+        .then(res => res.json())
+        .then(tasks => {
+          const container = document.getElementById('tasks');
+          if (tasks.length === 0) {
+            container.innerHTML = '<p>Няма задачи.</p>';
+            return;
+          }
+          container.innerHTML = tasks.map(t =>
+            `<p>${t.title} — ${t.completed ? '✔️' : '❌'}</p>`
+          ).join('');
+        })
+        .catch(() => {
+          document.getElementById('tasks').innerHTML = 'Грешка при зареждане на задачите.';
+        });
+    </script>
+</body>
+</html>
